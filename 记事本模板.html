@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/index.css" />
+    <title>记事本</title>
+  </head>
+  <body>
+    <!-- 主体区域 -->
+    <section id="app">
+      <!-- 输入框 -->
+      <header class="header">
+        <h1>记事本</h1>
+        <input
+          placeholder="请输入任务"
+          class="new-todo"
+          v-model.trim="inputValue"
+          @keydown.enter="add()"
+        />
+        <!-- 封装<input v-on:keydown="add_org()">
+        add_org(evt){
+          if(evt.key==="Enter"){
+            add();
+          }
+        } -->
+        <button class="add" v-on:click="add()">添加任务</button>
+      </header>
+      <!-- 列表区域 -->
+      <section class="main">
+        <ul class="todo-list">
+          <li class="todo" v-for="(items,index) in tasks" v-bind:key="items.id">
+            <div class="view">
+              <span class="index">{{index+1}}.</span>
+              <label>{{items.task}}</label>
+              <button class="destroy" @click="del(items.id)"></button>
+            </div>
+          </li>
+        </ul>
+      </section>
+      <!-- 统计和清空 -->
+      <footer class="footer" v-show="tasks.length>0">
+        <!-- 统计 -->
+        <span class="todo-count"
+          >合 计:<strong> {{tasks.length}} </strong></span
+        >
+        <!-- 清空 -->
+        <button class="clear-completed" @click="delAll()">清空任务</button>
+      </footer>
+    </section>
+
+    <!-- 底部 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data: {
+          id: 1,
+          tasks: [
+            { id: 1, task: "    吃饭" },
+            { id: 2, task: "    写作业" },
+            { id: 3, task: "上课" },
+          ],
+          // tasks:[],
+          inputValue: "",
+        },
+        methods: {
+          add() {
+            //.trim()字符串去除空格
+            if (this.inputValue.trim()) {
+              this.id += 1;
+              //unshift反向压栈，.push()
+              this.tasks.unshift({ id: this.id, task: this.inputValue });
+              this.inputValue = "";
+            }
+          },
+          del(id) {
+            this.tasks = this.tasks.filter(function (items, index) {
+              return items.id !== id;
+              //.filter((items,index)=>items.id!==id)
+            });
+          },
+          delAll() {
+            this.tasks = [];
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
