@@ -1,0 +1,34 @@
+// @use "variables";
+
+:root {
+  --themeColor: #{$theme-color};
+}
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+html {
+  height: 100%;
+  font-size: 16px;
+  font-weight: 300;
+}
+body {
+  margin: 0;
+  background: #fff;
+}
+h1 {
+  color: $theme-color;
+
+  font-size: 4rem;
+  font-weight: 200;
+}
+
+// .App{
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+// min-height: 100vh;
+//   margin: 0;
+// }

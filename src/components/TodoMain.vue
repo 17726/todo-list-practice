@@ -1,15 +1,26 @@
 <template>
   <div class="todo-main">
-    <ol class="tasks">
-      <li class="task" >
-        <p>吃饭</p>
-      </li>
+    <ol class="todos">
+      <li class="todo" v-for="item in lists" :key="item.id">{{ item.name }}</li>
     </ol>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    lists: {
+      type: Array,
+      // required: true,
+    },
+  },
+};
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.todo-main {
+}
+li {
+  font-size: $notes-font-size;
+}
+</style>

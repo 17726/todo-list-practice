@@ -10,7 +10,28 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
-.todo-header{
-    // border: 1px solid black;
+.todo-header {
+  display: grid;
+  grid-template-columns:  1fr auto;
+  // width: 100%;
+  border: 2px solid $theme-color;
+  border-radius: 1rem;
+  //子元素超出部分隐藏
+  overflow: hidden;
+  input {
+    padding: 1rem;
+    border: none;
+    font-size: $notes-font-size;
+
+    // background: rgba(0, 0, 0, 0.003);
+    // box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
+  }
+  button {
+    padding: 0 1rem;
+    background-color: $theme-color;
+    color: white;
+    border: none;
+    font-size: $notes-font-size;
+  }
 }
 </style>
