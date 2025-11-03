@@ -15,10 +15,10 @@ import TodoMain from "@/components/TodoMain.vue";
 import TodoFooter from "@/components/TodoFooter.vue";
 
 const initialLists = [
-  { id: 1, name: "吃饭", done: false },
-  { id: 2, name: "睡觉", done: true },
-  { id: 3, name: "打代码", done: false },
-  { id: 4, name: "逛街", done: true },
+  { id: 1, name: "Coding", done: false },
+  { id: 2, name: "逛公园", done: true },
+  { id: 3, name: "吃晚饭", done: false },
+  { id: 4, name: "睡觉", done: true },
 ];
 export default {
   components: {
