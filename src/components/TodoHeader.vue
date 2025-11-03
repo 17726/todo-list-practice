@@ -1,18 +1,36 @@
 <template>
   <div class="todo-header">
-    <input type="text" placeholder="请输入任务" />
-    <button>添加任务</button>
+    <input
+      type="text"
+      placeholder="请输入任务"
+      v-model="input"
+      @keydown.enter="handleAdd()"
+    />
+    <button @click="handleAdd()">添加任务</button>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      input: "",
+    };
+  },
+  methods: {
+    handleAdd() {
+      if (this.input.trim() === "") return;
+      this.$emit("addTodo", this.input);
+      this.input = "";
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
 .todo-header {
   display: grid;
-  grid-template-columns:  1fr auto;
+  grid-template-columns: 1fr auto;
   // width: 100%;
   border: 2px solid $theme-color;
   border-radius: 1rem;

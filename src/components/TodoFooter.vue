@@ -1,17 +1,17 @@
 <template>
   <div class="todo-footer">
-    <p>总数：{{total}}</p>
+    <p>总数：{{ total }}</p>
     <a href="#">清空任务</a>
   </div>
 </template>
 
 <script>
 export default {
-    props: {
-        total: {
-            type: Number,
-        },
-    }
+  props: {
+    total: {
+      type: Number,
+    },
+  },
 };
 </script>
 
@@ -21,8 +21,12 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1rem;
-  a{
+  padding: 1rem 1.5rem;
+  padding-bottom: 0;
+  // 分隔线
+  border-top: 2px solid $theme-color;
+  
+  a {
     text-decoration: none;
     //消除点击时的颜色变化
     color: inherit;

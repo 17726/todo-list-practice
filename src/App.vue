@@ -2,7 +2,7 @@
   <div class="App">
     <h1>Todo-List</h1>
     <div class="card">
-      <TodoHeader></TodoHeader>
+      <TodoHeader @addTodo="handleAdd()"></TodoHeader>
       <TodoMain :lists="lists"></TodoMain>
       <TodoFooter :total="lists.length"></TodoFooter>
     </div>
@@ -29,6 +29,17 @@ export default {
       ],
     };
   },
+  methods: {
+    handleAdd(todoName) {
+      //逆向压栈unshift
+
+      this.lists.unshift({
+        id: +new Date(),
+        name: todoName,
+        done: false,
+      });
+    },
+  },
 };
 </script>
 
@@ -41,12 +52,18 @@ export default {
   min-height: 100vh;
   margin: 0;
   padding-top: 120px;
+  padding-bottom: 60px;
 }
 .card {
+  // display: flex;
+  // flex-direction: column;
+  //  lign-items: center;
+  // gap: 1rem;
   width: min(90%, 550px);
-  padding: 1rem;
-  background-color: rgb(116, 75, 75);
-
+  padding: 1.5rem;
+  background-color: rgb(255, 255, 255);
+  border-radius: 1rem;
   box-shadow: $soft-Shadow;
+
 }
 </style>
