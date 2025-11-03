@@ -1,0 +1,62 @@
+# deploy.yml
+
+# 1. 工作流的名称
+name: Deploy Vue.js to GitHub Pages
+
+# 2. 触发条件：当 'main' 分支被 'push' 时触发
+on:
+  push:
+    branches: [ main ] # 主分支名
+
+# 3. 权限设置：允许此工作流写入部署
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 4. 设置并发：允许只有一个并发部署，自动取消正在进行的旧部署
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+# 5. 任务列表
+jobs:
+  # 部署任务
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      # (1) 检出代码
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # (2) 设置 Node.js 环境 (Vue 2 建议使用 Node 16)
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+
+      # (3) 安装依赖 (使用 npm ci 更快更稳定)
+      - name: Install dependencies
+        run: npm ci
+
+      # (4) 构建项目 (它会自动读取 vue.config.js 里的 publicPath)
+      - name: Build
+        run: npm run build
+
+      # (5) 设置 Pages (固定步骤)
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      # (6) 上传构建产物 (dist 文件夹)
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      # (7) 部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
