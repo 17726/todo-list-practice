@@ -1,14 +1,19 @@
 <template>
   <div class="todo-main">
     <ul class="todos">
-      <li class="todo" v-for="item in lists" :key="item.id">
+      <li
+        class="todo"
+        v-for="item in lists"
+        :key="item.id"
+        :class="{ done: item.done }"
+      >
         <!-- 完成框checkbox -->
         <div class="todo-content">
           <input type="checkbox" v-model="item.done" />
           <p>{{ item.name }}</p>
         </div>
         <!-- 删除按钮 -->
-        <button class="delete">X</button>
+        <button class="delete" @click="delItem(item.id)">×</button>
       </li>
     </ul>
   </div>
@@ -20,6 +25,11 @@ export default {
     lists: {
       type: Array,
       // required: true,
+    },
+  },
+  methods: {
+    delItem(id) {
+      this.$emit("del", id);
     },
   },
 };
@@ -45,6 +55,14 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    // padding: 0.75rem 1rem;          // 增加内边距
+    // 分隔线
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    // 去除最后一项的的分割线
+    &:last-child {
+      border-bottom: none;
+    }
     .todo-content {
       display: flex;
       flex-direction: row;
@@ -54,10 +72,23 @@ export default {
     .delete {
       background: none;
       border: none;
-      color: red;
+      color: $theme-color;
       font-weight: bold;
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       cursor: pointer;
+      &:hover {
+        color:$delete-color ;
+        transform: scale(1.1);
+      }
+    }
+    &.done {
+      .todo-content {
+        p {
+          color: #999;
+          text-decoration: line-through;
+          text-decoration-thickness: 2px;
+        }
+      }
     }
   }
 }

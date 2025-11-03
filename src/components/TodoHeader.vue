@@ -37,6 +37,8 @@ export default {
   //子元素超出部分隐藏
   overflow: hidden;
   input {
+    //清除默认最小宽度
+    min-width: 0;
     padding: 1rem;
     border: none;
     font-size: $notes-font-size;
@@ -50,6 +52,16 @@ export default {
     color: white;
     border: none;
     font-size: $notes-font-size;
+  }
+}
+@media (max-width: 400px) {
+  // 较窄移动端
+  .todo-header {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    button {
+      width: 100%;
+    }
   }
 }
 </style>

@@ -1,17 +1,27 @@
 <template>
   <div class="todo-footer">
-    <p>总数：{{ total }}</p>
-    <a href="#">清空任务</a>
+    <p>剩余任务：{{ remainingTasks }}</p>
+    <a href="#" @click="clear">清空任务</a>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    total: {
-      type: Number,
+    lists: {
+      type: Array,
     },
   },
+  computed: {
+    remainingTasks() {
+      return this.lists.filter((item) => !item.done).length;
+    },
+  },
+  methods: {
+    clear() {
+     this.$emit("clear"); 
+    }
+  }
 };
 </script>
 
@@ -25,7 +35,7 @@ export default {
   padding-bottom: 0;
   // 分隔线
   border-top: 2px solid $theme-color;
-  
+
   a {
     text-decoration: none;
     //消除点击时的颜色变化

@@ -2,9 +2,9 @@
   <div class="App">
     <h1>Todo-List</h1>
     <div class="card">
-      <TodoHeader @addTodo="handleAdd()"></TodoHeader>
-      <TodoMain :lists="lists"></TodoMain>
-      <TodoFooter :total="lists.length"></TodoFooter>
+      <TodoHeader @addTodo="handleAdd"></TodoHeader>
+      <TodoMain @del="handleDel" :lists="lists"></TodoMain>
+      <TodoFooter :lists="lists" @clear="handleClear"></TodoFooter>
     </div>
   </div>
 </template>
@@ -13,6 +13,13 @@
 import TodoHeader from "@/components/TodoHeader.vue";
 import TodoMain from "@/components/TodoMain.vue";
 import TodoFooter from "@/components/TodoFooter.vue";
+
+const initialLists = [
+  { id: 1, name: "吃饭", done: false },
+  { id: 2, name: "睡觉", done: true },
+  { id: 3, name: "打代码", done: false },
+  { id: 4, name: "逛街", done: true },
+];
 export default {
   components: {
     TodoHeader,
@@ -21,12 +28,7 @@ export default {
   },
   data() {
     return {
-      lists: [
-        { id: 1, name: "吃饭", done: false },
-        { id: 2, name: "睡觉", done: true },
-        { id: 3, name: "打代码", done: false },
-        { id: 4, name: "逛街", done: true },
-      ],
+      lists: JSON.parse(localStorage.getItem("lists")) || initialLists,
     };
   },
   methods: {
@@ -38,6 +40,20 @@ export default {
         name: todoName,
         done: false,
       });
+    },
+    handleDel(id) {
+      this.lists = this.lists.filter((item) => item.id !== id);
+    },
+    handleClear() {
+      this.lists = [];
+    },
+  },
+  watch: {
+    lists: {
+      deep: true,
+      handler(Newlists) {
+        localStorage.setItem("lists", JSON.stringify(Newlists));
+      },
     },
   },
 };
@@ -64,6 +80,5 @@ export default {
   background-color: rgb(255, 255, 255);
   border-radius: 1rem;
   box-shadow: $soft-Shadow;
-
 }
 </style>
