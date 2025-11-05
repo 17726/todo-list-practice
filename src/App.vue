@@ -33,13 +33,19 @@ export default {
   },
   methods: {
     handleAdd(todoName) {
-      //逆向压栈unshift
-
-      this.lists.unshift({
-        id: +new Date(),
-        name: todoName,
-        done: false,
-      });
+      //重复校验
+      if (this.lists.every((item) => item.name !== todoName.trim())) {
+        //逆向压栈unshift
+        this.lists.unshift({
+          id: +new Date(),
+          name: todoName,
+          done: false,
+        });
+      } else {
+        alert("任务已存在！");
+      }
+      // 或用.some更符合语义
+      // if (!this.lists.some((item) => item.name === todoName.trim())) {
     },
     handleDel(id) {
       this.lists = this.lists.filter((item) => item.id !== id);
@@ -67,7 +73,7 @@ export default {
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  padding-top: 120px;
+  padding-top: 10vh;
   padding-bottom: 60px;
 }
 .card {
