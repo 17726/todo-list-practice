@@ -6,7 +6,7 @@
         v-for="item in lists"
         :key="item.id"
         :class="{ done: item.done }"
-        @dblclick="editFocus(item.id)"
+        
       >
         <!-- 完成框checkbox -->
         <div class="todo-content">
@@ -18,9 +18,10 @@
             type="text"
             v-model="editingInput"
             @keydown.enter="editedSubmit()"
+            @keydown.esc="cancelEdit()"
             @blur="editedSubmit()"
           />
-          <p v-else>{{ item.name }}</p>
+          <p v-else @dblclick="editFocus(item.id)">{{ item.name }}</p>
         </div>
         <!-- 删除按钮 -->
         <button class="delete" @click="delItem(item.id)">×</button>
@@ -39,7 +40,8 @@ export default {
   },
   data() {
     return {
-      isEditingId: "",
+      // 预防isEditingId 类型不一致？？
+      isEditingId: null,
       editingInput: "",
     };
   },
@@ -48,14 +50,14 @@ export default {
       this.$emit("del", id);
     },
     editFocus(id) {
-      console.log("双击编辑", id);
+      // console.log("双击编辑", id);
       this.isEditingId = id;
       this.editingInput = this.lists.find((item) => item.id === id).name;
       this.$nextTick(() => {
         const ref = this.$refs["inp" + id];
         // ref 在 v-for 中是数组，需要取第一个元素
         const input = Array.isArray(ref) ? ref[0] : ref;
-        console.log(input);
+        // console.log(input);
         input.focus();
         // if (input && input.focus) {？？
         //   input.focus();
@@ -68,7 +70,14 @@ export default {
       });
     },
     editedSubmit() {
-      this.$emit("edit", this.isEditingId, this.editingInput);
+      // const trimmed = (this.editingInput || "").trim();
+      // if (trimmed && this.isEditingId !== null) {
+      //   this.$emit("edit", this.isEditingId, trimmed);
+      // }
+      this.$emit("edit", { id: this.isEditingId, name: this.editingInput });
+      this.cancelEdit();
+    },
+    cancelEdit() {
       this.isEditingId = "";
       this.editingInput = "";
     },

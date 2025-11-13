@@ -53,16 +53,16 @@ export default {
     handleClear() {
       this.lists = [];
     },
-    handleEdit(id, newTodoName) {
-      // 从子组件接收两个参数，id和新的任务名称
+    handleEdit(newTodo) {
+      // 从子组件接收newTodo对象({id, name})
       this.lists = this.lists.map((item) => {
-        if (item.id === id) {
-          return{...item,name:newTodoName}
+        if (item.id === newTodo.id) {
+          return { ...item, ...newTodo };
         } else {
           return item;
         }
       });
-    }
+    },
   },
   watch: {
     lists: {
