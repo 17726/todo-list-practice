@@ -6,7 +6,6 @@
         v-for="item in lists"
         :key="item.id"
         :class="{ done: item.done }"
-        
       >
         <!-- 完成框checkbox -->
         <div class="todo-content">
@@ -118,6 +117,21 @@ export default {
       flex-direction: row;
       align-items: center;
       gap: 0.5rem;
+
+      input[type="text"] {
+        flex: 1;
+        padding: 0.5rem 0.75rem;
+        border: 2px solid $theme-color;
+        border-radius: 0.5rem;
+        outline: none;
+        font-size: $notes-font-size;
+        transition: all 0.2s ease;
+
+        &:focus {
+          border-color: darken($theme-color, 10%);
+          box-shadow: 0 0 0 3px rgba($theme-color, 0.1);
+        }
+      }
     }
     .delete {
       background: none;

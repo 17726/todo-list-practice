@@ -41,10 +41,12 @@ export default {
     min-width: 0;
     padding: 1rem;
     border: none;
+    outline: none;
     font-size: $notes-font-size;
 
-    // background: rgba(0, 0, 0, 0.003);
-    // box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
+    &:focus {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
   }
   button {
     padding: 0 1rem;
