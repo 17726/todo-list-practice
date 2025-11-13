@@ -3,7 +3,7 @@
     <h1>Todo-List</h1>
     <div class="card">
       <TodoHeader @addTodo="handleAdd"></TodoHeader>
-      <TodoMain @del="handleDel" :lists="lists"></TodoMain>
+      <TodoMain @del="handleDel" :lists="lists" @edit="handleEdit"></TodoMain>
       <TodoFooter :lists="lists" @clear="handleClear"></TodoFooter>
     </div>
   </div>
@@ -53,6 +53,16 @@ export default {
     handleClear() {
       this.lists = [];
     },
+    handleEdit(id, newTodoName) {
+      // 从子组件接收两个参数，id和新的任务名称
+      this.lists = this.lists.map((item) => {
+        if (item.id === id) {
+          return{...item,name:newTodoName}
+        } else {
+          return item;
+        }
+      });
+    }
   },
   watch: {
     lists: {

@@ -6,11 +6,21 @@
         v-for="item in lists"
         :key="item.id"
         :class="{ done: item.done }"
+        @dblclick="editFocus(item.id)"
       >
         <!-- 完成框checkbox -->
         <div class="todo-content">
           <input type="checkbox" v-model="item.done" />
-          <p>{{ item.name }}</p>
+
+          <input
+            v-if="isEditingId === item.id"
+            :ref="'inp' + item.id"
+            type="text"
+            v-model="editingInput"
+            @keydown.enter="editedSubmit()"
+            @blur="editedSubmit()"
+          />
+          <p v-else>{{ item.name }}</p>
         </div>
         <!-- 删除按钮 -->
         <button class="delete" @click="delItem(item.id)">×</button>
@@ -27,9 +37,40 @@ export default {
       // required: true,
     },
   },
+  data() {
+    return {
+      isEditingId: "",
+      editingInput: "",
+    };
+  },
   methods: {
     delItem(id) {
       this.$emit("del", id);
+    },
+    editFocus(id) {
+      console.log("双击编辑", id);
+      this.isEditingId = id;
+      this.editingInput = this.lists.find((item) => item.id === id).name;
+      this.$nextTick(() => {
+        const ref = this.$refs["inp" + id];
+        // ref 在 v-for 中是数组，需要取第一个元素
+        const input = Array.isArray(ref) ? ref[0] : ref;
+        console.log(input);
+        input.focus();
+        // if (input && input.focus) {？？
+        //   input.focus();
+        //   // 将光标移到文本末尾
+        //   if (input.setSelectionRange) {
+        //     const len = this.editingInput.length;
+        //     input.setSelectionRange(len, len);
+        //   }
+        // }
+      });
+    },
+    editedSubmit() {
+      this.$emit("edit", this.isEditingId, this.editingInput);
+      this.isEditingId = "";
+      this.editingInput = "";
     },
   },
 };
@@ -77,7 +118,7 @@ export default {
       font-size: 1.5rem;
       cursor: pointer;
       &:hover {
-        color:$delete-color ;
+        color: $delete-color;
         transform: scale(1.1);
       }
     }

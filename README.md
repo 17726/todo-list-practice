@@ -35,7 +35,7 @@
 
 ```bash
 git clone https://github.com/17726/todo-list-practice.git
-cd vue-cli-02
+cd todo-list-practice
 ```
 
 ### 2. 安装依赖
